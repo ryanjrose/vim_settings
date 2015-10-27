@@ -83,6 +83,11 @@ set laststatus=2
 
 " Tagbar mapping
 nmap <F8> :TagbarToggle<CR>
+autocmd FileType python call SetPythonOptions()
+function! SetPythonOptions()
+    :call tagbar#autoopen(0)
+endfunction
+
 
 " NERDTree Key Mapping
 nmap <silent> <C-D> :NERDTreeToggle<CR>
