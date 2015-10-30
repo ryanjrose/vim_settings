@@ -30,6 +30,18 @@ Plugin 'https://github.com/brafales/vim-desert256.git'
 
 Plugin 'bling/vim-airline'
 
+Plugin 'wesQ3/vim-windowswap'
+" Swap windows with <leader>ww
+
+Plugin 'elzr/vim-json'
+" JSON Syntax hilighter
+
+Plugin 'XadillaX/json-formatter.vim'
+" JSON Formatter
+
+Plugin 'nanotech/jellybeans.vim'
+" Colorscheme
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -53,8 +65,9 @@ filetype plugin indent on    " required
 syntax on
 set ruler
 set nohlsearch
-color desert
 set background=dark
+color jellybeans
+"color desert256
 "colorscheme solarized
 
 
@@ -62,6 +75,7 @@ set background=dark
 set foldmethod=syntax
 set foldlevelstart=1
 let xml_syntax_folding=1      " XML
+let xsd_syntax_folding=1      " XML
 
 set tabstop=4
 set et
@@ -93,4 +107,27 @@ endfunction
 nmap <silent> <C-D> :NERDTreeToggle<CR>
 
 " Color json
-au BufRead,BufNewFile *.json setf json
+"au BufRead,BufNewFile *.json setf json
+au! BufRead,BufNewFile *.json set filetype=json
+au! BufRead,BufNewFile *telemetry.log set filetype=json
+
+augroup json_autocmd
+autocmd!   
+autocmd FileType json set autoindent   
+autocmd FileType json set formatoptions=tcq2l   
+autocmd FileType json set textwidth=78 shiftwidth=2   
+autocmd FileType json set softtabstop=2 tabstop=8   
+autocmd FileType json set expandtab   
+"autocmd FileType json set foldmethod=syntax 
+augroup END
+
+function! FeedVisualCmd(cmdpat)
+    let [qr, qt] = [getreg('"'), getregtype('"')]
+    silent norm! gvy
+    let cmd = printf(a:cmdpat, shellescape(@"))
+    call setreg('"', qr, qt)
+    echo system(cmd)
+    if v:shell_error
+        echohl ErrorMsg | echom 'Failed to run ' . cmd | echohl NONE
+    endif
+endfunction
