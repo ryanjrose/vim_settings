@@ -1,4 +1,5 @@
 let mapleader=","
+set encoding=utf-8
 " Vundle Config Setting
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -70,12 +71,18 @@ color jellybeans
 "color desert256
 "colorscheme solarized
 
-
-" Automatic XML Folding
-set foldmethod=syntax
-set foldlevelstart=1
+" ===========================
+" Folding Options
+" ===========================
+autocmd FileType xml set foldmethod=syntax 
+autocmd FileType json set foldmethod=syntax 
+set foldlevelstart=2
+let json_syntax_folding=3     " XML
 let xml_syntax_folding=1      " XML
-let xsd_syntax_folding=1      " XML
+let xsd_syntax_folding=1      " XSD
+" These autocommands prevent the folding from happening when you open a file
+autocmd Syntax c,cpp,vim,xml,html,xhtml,json setlocal foldmethod=syntax
+autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python,node,json normal zR
 
 set tabstop=4
 set et
@@ -102,6 +109,12 @@ function! SetPythonOptions()
     :call tagbar#autoopen(0)
 endfunction
 
+" ======================================
+"  Open TagfBar by default for js files
+" ======================================
+autocmd BufEnter *.js nested TagbarOpen
+
+
 
 " NERDTree Key Mapping
 nmap <silent> <C-D> :NERDTreeToggle<CR>
@@ -109,16 +122,14 @@ nmap <silent> <C-D> :NERDTreeToggle<CR>
 " Color json
 "au BufRead,BufNewFile *.json setf json
 au! BufRead,BufNewFile *.json set filetype=json
-au! BufRead,BufNewFile *telemetry.log set filetype=json
 
 augroup json_autocmd
 autocmd!   
 autocmd FileType json set autoindent   
 autocmd FileType json set formatoptions=tcq2l   
 autocmd FileType json set textwidth=78 shiftwidth=2   
-autocmd FileType json set softtabstop=2 tabstop=8   
+autocmd FileType json set softtabstop=2 tabstop=4   
 autocmd FileType json set expandtab   
-"autocmd FileType json set foldmethod=syntax 
 augroup END
 
 function! FeedVisualCmd(cmdpat)
@@ -131,3 +142,4 @@ function! FeedVisualCmd(cmdpat)
         echohl ErrorMsg | echom 'Failed to run ' . cmd | echohl NONE
     endif
 endfunction
+
