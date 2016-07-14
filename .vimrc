@@ -143,3 +143,28 @@ function! FeedVisualCmd(cmdpat)
     endif
 endfunction
 
+" =====================================
+"  80 Column and 120 Column Warnings
+" =====================================
+let &colorcolumn=join(range(81,999),",")
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+let &colorcolumn="80,".join(range(120,999),",")
+"
+" ========================================
+"  Clean up trailing white spaces on save
+" ========================================
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+" Automatically cleanup trailing white space on save
+" Python and js only
+autocmd BufWritePre *.py,*.js :call <SID>StripTrailingWhitespaces()
