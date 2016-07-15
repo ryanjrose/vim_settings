@@ -9,7 +9,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-
+"
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
@@ -21,10 +21,13 @@ Plugin 'https://github.com/scrooloose/nerdtree.git'
 
 Plugin 'majutsushi/tagbar'
 ":help tagbar
+"
+
+Plugin 'scrooloose/syntastic'
 
 "Plugin 'https://github.com/evgenyzinoviev/vim-vendetta.git'
 "Plugin 'https://github.com/Haron-Prime/Antares.git'
-Plugin 'https://github.com/brafales/vim-desert256.git'
+"Plugin 'https://github.com/brafales/vim-desert256.git'
 "Plugin 'christophermca/meta5'
 
 "Plugin 'https://github.com/klen/python-mode.git'
@@ -42,6 +45,7 @@ Plugin 'XadillaX/json-formatter.vim'
 
 Plugin 'nanotech/jellybeans.vim'
 " Colorscheme
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -96,6 +100,17 @@ let python_highlight_all = 1
 
 " Enable Airline font symbols
 let g:airline_powerline_fonts = 1
+
+"Syntastic Syntax checking
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
 
 "
 " Enable airline
